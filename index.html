@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Management Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="main-container">
+        <h1 class="main-heading">Ticket Management Dashboard</h1>
+        
+        <div class="toolbar">
+            <div class="button-grid">
+            <button onclick="openAddTicketModal()" class="btn btn-primary">
+                Add Ticket
+            </button>
+            <button onclick="openEditTicketModal()" class="btn btn-primary">
+                Edit Ticket
+            </button>
+            <button onclick="deleteTicket()" class="btn btn-primary">
+                Delete Ticket
+            </button>
+            <button onclick="openReportModal()" class="btn btn-primary">
+                Generate Summary Report
+            </button>
+        </div>
+        
+        <div id="addTicketModal" class="modal-overlay hidden">
+            <div class="modal-content">
+                <h3 class="modal-heading">Add New Ticket</h3>
+                <form id="addTicketForm" class="form-grid">
+                    <div>
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" id="title" name="title" required class="form-input" />
+                    </div>
+                    <div>
+                        <label for="description" class="form-label">Description</label>
+                        <textarea id="description" name="description" rows="2" required class="form-input"></textarea>
+                    </div>
+                    <div>
+                        <label for="status" class="form-label">Status</label>
+                        <select id="status" name="status" class="form-input">
+                            <option value="Open">Open</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Resolved">Resolved</option>
+                            <option value="Closed">Closed</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="category" class="form-label">Category</label>
+                        <input type="text" id="category" name="category" class="form-input" />
+                    </div>
+                    <div>
+                        <label for="assignedTo" class="form-label">Assigned To</label>
+                        <input type="text" id="assignedTo" name="assignedTo" class="form-input" />
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" onclick="closeAddTicketModal()" class="btn btn-default">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add Ticket</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div id="editTicketModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 class="modal-heading">Edit Ticket</h3>
+            <form id="editTicketForm" class="form-grid">
+                <input type="hidden" id="editTicketId" />
+                <div>
+                    <label for="editTitle" class="form-label">Title</label>
+                    <input type="text" id="editTitle" name="title" class="form-input" />
+                </div>
+                <div>
+                    <label for="editDescription" class="form-label">Description</label>
+                    <textarea id="editDescription" name="description" rows="2" class="form-input"></textarea>
+                </div>
+                <div>
+                    <label for="editStatus" class="form-label">Status</label>
+                    <select id="editStatus" name="status" class="form-input">
+                        <option value="Open">Open</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                        <option value="Closed">Closed</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="editPriority" class="form-label">Priority</label>
+                    <select id="editPriority" name="priority" class="form-input">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                        <option value="Critical">Critical</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="editCategory" class="form-label">Category</label>
+                    <input type="text" id="editCategory" name="category" class="form-input" />
+                </div>
+                <div>
+                    <label for="editAssignedTo" class="form-label">Assigned To</label>
+                    <input type="text" id="editAssignedTo" name="assignedTo" class="form-input" />
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="closeEditModal()" class="btn btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="section-container">
+        <h2 class="section-heading">Current Tickets</h2>
+        <div id="ticketList" class="ticket-table-container">
+            <table class="ticket-table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Priority</th>
+                        <th scope="col">Assigned</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="reportModal" class="modal-overlay hidden">
+        <div class="modal-content report-modal-content">
+            <h3 class="modal-heading">Ticket Reports</h3>
+            <div class="report-grid">
+                <div>
+                    <h3 class="report-subheading">Summary by Priority</h3>
+                    <div id="summaryPriority" class="report-content">Loading...</div>
+                </div>
+                <div>
+                    <h3 class="report-subheading">Summary by Category</h3>
+                    <div id="summaryCategory" class="report-content">Loading...</div>
+                </div>
+                <div class="report-full-width">
+                    <h3 class="report-subheading">Utilization Report</h3>
+                    <div id="utilizationReport" class="report-content">Loading...</div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button onclick="closeReportModal()" class="btn btn-primary">
+                    Close Reports
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="messageBox" class="modal-overlay hidden">
+        <div class="modal-content small-modal">
+            <h3 id="messageBoxTitle" class="modal-heading">Message</h3>
+            <p id="messageBoxContent" class="modal-text"></p>
+            <button onclick="closeMessageBox()" class="btn btn-primary">OK</button>
+        </div>
+    </div>
+
+    <div id="confirmationalModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 id="confirmationalModalTitle" class="modal-heading">Confirm Action</h3>
+            <p id="confirmationalModalContent" class="modal-text"></p>
+            <div class="modal-actions">
+                <button id="confirmYesButton" class="btn btn-secondary">Yes</button>
+                <button id="confirmNoButton" class="btn btn-default">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

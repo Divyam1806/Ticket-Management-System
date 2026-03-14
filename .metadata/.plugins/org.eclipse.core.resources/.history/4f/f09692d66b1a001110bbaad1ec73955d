@@ -1,0 +1,5 @@
+package in.tms.springbootcrud.springbootcrudapi.model;
+
+public class Ticket {
+
+}

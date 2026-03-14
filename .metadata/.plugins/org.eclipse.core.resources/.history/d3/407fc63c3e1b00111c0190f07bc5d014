@@ -1,0 +1,21 @@
+package in.tms.springbootcrud.springbootcrudapi.dao;
+
+import java.util.List;
+import in.tms.springbootcrud.springbootcrudapi.model.Ticket;
+
+public interface TicketDAO {
+
+    List<Ticket> get();
+
+    Ticket get(int id);
+
+    void save(Ticket ticket);
+
+    void delete(int id);
+
+    List<Object[]> getTicketSummaryByCategory();
+
+    List<Object[]> getTicketSummaryByPriority();
+    
+    long count();
+}

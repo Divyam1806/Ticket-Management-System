@@ -1,0 +1,5 @@
+package in.tms.springbootcrud.springbootcrudapi.service;
+
+public interface TicketService {
+
+}

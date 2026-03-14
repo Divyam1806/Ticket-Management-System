@@ -1,0 +1,82 @@
+package in.tms.springbootcrud.springbootcrudapi.dao;
+
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import in.tms.springbootcrud.springbootcrudapi.model.Ticket;
+import jakarta.persistence.EntityManager;
+
+@Repository
+public class TicketDAOImpl implements TicketDAO {
+	
+	@Autowired
+	private EntityManager entityManager;
+
+	@Override
+	public List<Ticket> get() {
+		Session currentSession = entityManager.unwrap(Session.class);
+		Query<Ticket> query = currentSession.createQuery("from Ticket", Ticket.class);
+		List<Ticket> list = query.getResultList();
+		return list;
+	}
+
+	@Override
+	public Ticket get(int id) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		Ticket ticketObj = currentSession.find(Ticket.class, id);
+		return ticketObj;
+	}
+
+	@Override
+	public void save(Ticket ticket) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		currentSession.merge(ticket);
+	}
+
+	@Override
+	public void delete(int id) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		Ticket ticketObj = currentSession.find(Ticket.class, id);
+		currentSession.remove(ticketObj);	
+	}
+
+	@Override
+	public List<Object[]> getTicketSummaryByCategory() {
+
+	    Session currentSession = entityManager.unwrap(Session.class);
+
+	    Query<Object[]> query =
+	            currentSession.createQuery(
+	                    "SELECT t.category, COUNT(t) FROM Ticket t GROUP BY t.category",
+	                    Object[].class);
+	    return query.getResultList();
+	}
+
+	@Override
+	public List<Object[]> getTicketSummaryByPriority() {
+
+	    Session currentSession = entityManager.unwrap(Session.class);
+
+	    Query<Object[]> query =
+	            currentSession.createQuery(
+	                    "SELECT t.priority, COUNT(t) FROM Ticket t GROUP BY t.priority",
+	                    Object[].class);
+	    return query.getResultList();
+	}
+	
+	@Override
+	public long count() {
+
+	    Session currentSession = entityManager.unwrap(Session.class);
+
+	    Query<Long> query =
+	            currentSession.createQuery(
+	                    "SELECT COUNT(t) FROM Ticket t",
+	                    Long.class);
+	    return query.getSingleResult();
+	}
+}

@@ -1,0 +1,45 @@
+package in.tms.springbootcrud.springbootcrudapi.dao;
+
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import in.tms.springbootcrud.springbootcrudapi.model.Ticket;
+import jakarta.persistence.EntityManager;
+
+@Repository
+public class TicketDAOImpl implements TicketDAO {
+	
+	@Autowired
+	private EntityManager entityManager;
+
+	@Override
+	public List<Ticket> get() {
+		Session currentSession = entityManager.unwrap(Session.class);
+		Query<Ticket> query = currentSession.createQuery("from Ticket", Ticket.class);
+		List<Ticket> list = query.getResultList();
+		return list;
+	}
+
+	@Override
+	public Ticket get(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void save(Ticket ticket) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		((TicketDAO) currentSession).save(ticket);
+	}
+
+	@Override
+	public void delete(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

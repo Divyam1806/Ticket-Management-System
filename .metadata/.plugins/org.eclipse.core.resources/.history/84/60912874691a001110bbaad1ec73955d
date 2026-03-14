@@ -1,0 +1,36 @@
+package in.tms.springbootcrud.springbootcrudapi.DAO;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import in.tms.springbootcrud.springbootcrudapi.model.Ticket;
+
+@Repository
+public class TicketDAOImpl implements TicketDAO {
+
+	@Override
+	public List<Ticket> get() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Ticket get(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void save(Ticket ticket) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

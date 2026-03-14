@@ -1,0 +1,58 @@
+package in.tms.springbootcrud.springbootcrudapi.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import in.tms.springbootcrud.springbootcrudapi.dao.TicketDAO;
+import in.tms.springbootcrud.springbootcrudapi.model.Ticket;
+
+@Service
+public class TicketServiceImpl implements TicketService {
+	
+	@Autowired
+	private TicketDAO ticketDAO;
+	
+	
+	@Transactional
+	@Override
+	public List<Ticket> get() {
+		
+		return ticketDAO.get();
+		
+	}
+
+	@Transactional
+	@Override
+	public Ticket get(int id) {
+		return ticketDAO.get(id);
+	}
+
+	@Transactional
+	@Override
+	public void save(Ticket ticket) {
+		ticketDAO.save(ticket);
+		
+	}
+
+	@Transactional
+	@Override
+	public void delete(int id) {
+		ticketDAO.delete(id);
+	}
+	
+	@Override
+	@Transactional
+	public List<Object[]> getTicketSummaryByCategory() {
+	    return ticketDAO.getTicketSummaryByCategory();
+	}
+
+	@Override
+	@Transactional
+	public List<Object[]> getTicketSummaryByPriority() {
+	    return ticketDAO.getTicketSummaryByPriority();
+	}
+
+}

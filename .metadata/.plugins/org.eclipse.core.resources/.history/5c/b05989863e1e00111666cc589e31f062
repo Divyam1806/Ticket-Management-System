@@ -1,0 +1,13 @@
+package in.tms.springbootcrud.springbootcrudapi.dao;
+
+import in.tms.springbootcrud.springbootcrudapi.model.AuditLog;
+
+public class AuditLogDAOImpl implements AuditLogDAO {
+
+	@Override
+	public void save(AuditLog auditLog) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
